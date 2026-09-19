@@ -1,0 +1,7 @@
+name: ascii-wireframe
+display_name: ASCII Wireframe
+description: Draft UI layouts as plain-text wireframes.
+default_prompt: Use $ascii-wireframe to draft this interface as a responsive plain-text wireframe before implementation.
+supported_views: desktop,tablet,mobile,states
+trigger_phrases: ascii-wireframe,wireframe,sketch-ui,mockup-ui,plain-text-ui
+targets: codex,claude,copilot,gemini,opencode,cursor
