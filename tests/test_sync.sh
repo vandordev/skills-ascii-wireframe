@@ -50,9 +50,13 @@ grep -q '^# ASCII Wireframe for OpenCode$' "$ROOT/adapters/opencode/AGENTS.md"
 grep -q '^# ASCII Wireframe for Cursor$' "$ROOT/adapters/cursor/AGENTS.md"
 
 for adapter in codex claude copilot gemini opencode cursor; do
+  test -f "$ROOT/adapters/$adapter/references/accessibility.md"
   test -f "$ROOT/adapters/$adapter/references/example.md"
+  test -f "$ROOT/adapters/$adapter/references/flow-template.md"
   test -f "$ROOT/adapters/$adapter/references/legend.md"
+  test -f "$ROOT/adapters/$adapter/references/project-legend-template.md"
   test -f "$ROOT/adapters/$adapter/references/template.md"
+  test -x "$ROOT/adapters/$adapter/scripts/validate_wireframe.py"
 done
 
 for file in \

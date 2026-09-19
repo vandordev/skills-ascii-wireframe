@@ -7,13 +7,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        Use this template to propose a new capability or improvement for `api-flow-tester`.
+        Use this template to propose a new capability or improvement for `ascii-wireframe`.
   - type: textarea
     id: problem
     attributes:
       label: Problem or opportunity
       description: What problem are you trying to solve?
-      placeholder: It is hard to install the skill into another harness without repeating manual steps.
+      placeholder: Multi-screen wireframes need a clearer way to show shared navigation.
     validations:
       required: true
   - type: textarea
@@ -48,6 +48,8 @@ body:
         - Claude
         - Copilot
         - Gemini
+        - OpenCode
+        - Cursor
         - None
     validations:
       required: true

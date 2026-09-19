@@ -13,7 +13,7 @@ body:
     attributes:
       label: Current skill behavior
       description: What does the skill do today that you want to improve?
-      placeholder: The skill explains dry-run behavior, but the examples do not show enough variation.
+      placeholder: The legend covers tables, but the examples do not show an editable data grid.
     validations:
       required: true
   - type: textarea
@@ -21,7 +21,7 @@ body:
     attributes:
       label: Proposed improvement
       description: Describe the exact behavior, guidance, or artifact you want changed.
-      placeholder: Add an example flow that demonstrates partial runs with env-backed placeholders.
+      placeholder: Add a compact example showing edit, validation, save, and error states.
     validations:
       required: true
   - type: dropdown
@@ -31,8 +31,11 @@ body:
       options:
         - Workflow logic
         - Trigger wording
-        - Flow examples
-        - Secret handling guidance
+        - Wireframe notation
+        - Responsive behavior
+        - UI states
+        - Accessibility handoff
+        - Multi-screen flows
         - Adapter parity
         - Install experience
         - Documentation clarity
@@ -50,6 +53,8 @@ body:
         - Claude only
         - Copilot only
         - Gemini only
+        - OpenCode only
+        - Cursor only
         - Not harness-specific
     validations:
       required: true

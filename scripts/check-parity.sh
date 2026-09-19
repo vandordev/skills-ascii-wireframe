@@ -17,8 +17,13 @@ cmp -s "$ROOT/adapters/opencode/AGENTS.md" "$TMP_DIR/repo/adapters/opencode/AGEN
 cmp -s "$ROOT/adapters/cursor/AGENTS.md" "$TMP_DIR/repo/adapters/cursor/AGENTS.md" || { echo "hash mismatch: $ROOT/adapters/cursor/AGENTS.md" >&2; exit 1; }
 
 for adapter in codex claude copilot gemini opencode cursor; do
-  for reference in example.md legend.md template.md; do
-    cmp -s "$ROOT/core/references/$reference" "$ROOT/adapters/$adapter/references/$reference" || { echo "reference mismatch: $adapter $reference" >&2; exit 1; }
+  for source in "$ROOT/core/references/"*; do
+    reference="$(basename "$source")"
+    cmp -s "$source" "$ROOT/adapters/$adapter/references/$reference" || { echo "reference mismatch: $adapter $reference" >&2; exit 1; }
+  done
+  for source in "$ROOT/core/scripts/"*; do
+    script="$(basename "$source")"
+    cmp -s "$source" "$ROOT/adapters/$adapter/scripts/$script" || { echo "script mismatch: $adapter $script" >&2; exit 1; }
   done
 done
 

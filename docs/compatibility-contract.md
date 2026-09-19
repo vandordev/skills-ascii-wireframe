@@ -3,19 +3,24 @@
 ## Supported User Intents
 
 - Draft a screen, page, or component as a plain-text wireframe
+- Map a journey spanning two or more screens
 - Plan responsive desktop, tablet, mobile, or native-mobile layouts
 - Document relevant loading, empty, error, disabled, and success states
 - Capture interaction and accessibility notes without implementation code
 - Reuse or extend a project-local wireframe legend
+- Produce Unicode or strict ASCII-compatible diagrams
 
 ## Behavioral Guarantees
 
 - `core/SKILL.md` is the canonical workflow
 - All adapters receive the same legend, template, and example
+- All adapters receive the same runtime wireframe validator
 - Platform adapters preserve the same notation and responsive rules
 - Project-local `wireframes/_legend.md` overrides central conventions
 - The installed central legend is not mutated during project work
 - Non-applicable form factors and states are omitted instead of invented
+- Primary and active states use distinct explicit modifiers
+- Multi-screen work produces a shared flow map plus separate screen files
 
 ## Minimum Deliverable
 
@@ -23,3 +28,4 @@
 - Complete default view for each applicable form factor
 - Only the state fragments that materially change
 - Notes for non-visible behavior and material assumptions
+- Explicit open questions and accessibility requirements

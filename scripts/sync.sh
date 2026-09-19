@@ -16,6 +16,13 @@ copy_references() {
   cp "$CORE_DIR"/references/* "$adapter_dir/references/"
 }
 
+copy_skill_scripts() {
+  local adapter_dir="$1"
+  mkdir -p "$adapter_dir/scripts"
+  cp "$CORE_DIR"/scripts/* "$adapter_dir/scripts/"
+  chmod +x "$adapter_dir"/scripts/*
+}
+
 render_core_body() {
   awk 'NR == 1 && $0 == "---" { in_frontmatter = 1; next } in_frontmatter && $0 == "---" { in_frontmatter = 0; next } !in_frontmatter { print }' "$CORE_DIR/SKILL.md"
 }
@@ -55,35 +62,41 @@ policy:
 EOF
 
 copy_references "$ADAPTERS_DIR/codex"
+copy_skill_scripts "$ADAPTERS_DIR/codex"
 
 render_markdown_adapter \
   "$ADAPTERS_DIR/claude/CLAUDE.md" \
   "ASCII Wireframe for Claude" \
   "Use this file as the reusable Claude instruction for drafting consistent plain-text UI wireframes."
 copy_references "$ADAPTERS_DIR/claude"
+copy_skill_scripts "$ADAPTERS_DIR/claude"
 
 render_markdown_adapter \
   "$ADAPTERS_DIR/copilot/copilot-instructions.md" \
   "ASCII Wireframe for Copilot" \
   "Use this file as the repository-level Copilot instruction for drafting consistent plain-text UI wireframes."
 copy_references "$ADAPTERS_DIR/copilot"
+copy_skill_scripts "$ADAPTERS_DIR/copilot"
 
 render_markdown_adapter \
   "$ADAPTERS_DIR/gemini/GEMINI.md" \
   "ASCII Wireframe for Gemini" \
   "Use this file as the reusable Gemini instruction for drafting consistent plain-text UI wireframes."
 copy_references "$ADAPTERS_DIR/gemini"
+copy_skill_scripts "$ADAPTERS_DIR/gemini"
 
 render_markdown_adapter \
   "$ADAPTERS_DIR/opencode/AGENTS.md" \
   "ASCII Wireframe for OpenCode" \
   "Use this AGENTS.md file as the OpenCode project instruction for drafting consistent plain-text UI wireframes."
 copy_references "$ADAPTERS_DIR/opencode"
+copy_skill_scripts "$ADAPTERS_DIR/opencode"
 
 render_markdown_adapter \
   "$ADAPTERS_DIR/cursor/AGENTS.md" \
   "ASCII Wireframe for Cursor" \
   "Use this AGENTS.md file as the Cursor project instruction for drafting consistent plain-text UI wireframes."
 copy_references "$ADAPTERS_DIR/cursor"
+copy_skill_scripts "$ADAPTERS_DIR/cursor"
 
 printf 'Synced %s adapters for %s\n' "6" "$NAME"

@@ -6,11 +6,17 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 required_files=(
   "$ROOT/core/SKILL.md"
   "$ROOT/core/metadata.yaml"
+  "$ROOT/core/references/accessibility.md"
   "$ROOT/core/references/example.md"
+  "$ROOT/core/references/flow-template.md"
   "$ROOT/core/references/legend.md"
+  "$ROOT/core/references/project-legend-template.md"
   "$ROOT/core/references/template.md"
+  "$ROOT/core/scripts/validate_wireframe.py"
+  "$ROOT/evals/cases.md"
   "$ROOT/adapters/codex/SKILL.md"
   "$ROOT/adapters/codex/agents/openai.yaml"
+  "$ROOT/adapters/codex/scripts/validate_wireframe.py"
   "$ROOT/adapters/claude/CLAUDE.md"
   "$ROOT/adapters/copilot/copilot-instructions.md"
   "$ROOT/adapters/gemini/GEMINI.md"
@@ -31,6 +37,13 @@ required_meta_keys=(
 for file in "${required_files[@]}"; do
   test -f "$file" || {
     echo "missing required file: $file" >&2
+    exit 1
+  }
+done
+
+for adapter in codex claude copilot gemini opencode cursor; do
+  test -x "$ROOT/adapters/$adapter/scripts/validate_wireframe.py" || {
+    echo "wireframe validator is not executable for adapter: $adapter" >&2
     exit 1
   }
 done

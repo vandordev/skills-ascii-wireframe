@@ -9,26 +9,26 @@ A small-business operator reviews invoice status and creates an invoice. The pri
 ```text
 ┌─[Page: Invoice List]──────────────────────────────────────────┐
 │ ┌─[Sidebar]────────┐  ┌─[Main]─────────────────────────────┐ │
-│ │ Vandor           │  │ Invoices              [New invoice]*│ │
-│ │ [Dashboard]      │  │ Review billing and payment status   │ │
-│ │ [Invoices]*      │  │ ─────────────────────────────────── │ │
-│ │ [Clients]        │  │ [Search invoices....] [v Status]   │ │
-│ │ [Settings]       │  │                                    │ │
-│ └──────────────────┘  │ ┌─[Table]─────────────────────────┐ │ │
-│                       │ │ Client   | Amount | Due    |Status│ │ │
-│                       │ │──────────────────────────────────│ │ │
-│                       │ │ PT Ozone | 2.5m   | 20 Sep |[Paid]│ │ │
-│                       │ │ Oriskin  | 1.2m   | 25 Sep |[Due] │ │ │
-│                       │ │ Klien X  | 800k   | 30 Sep |[Late]│ │ │
-│                       │ └──────────────────────────────────┘ │ │
-│                       │ « 1 [2] 3 »                          │ │
-│                       └──────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────┘
+│ │ Vandor           │  │ Invoices        [New]{primary}     │ │
+│ │ [Dashboard]      │  │                                  │ │
+│ │ [Invoices]       │  │ Review billing and payment status │ │
+│ │ {active}         │  │ ───────────────────────────────── │ │
+│ │ [Clients]        │  │ [Search invoices....] [v Status] │ │
+│ │ [Settings]       │  │                                  │ │
+│ └──────────────────┘  │ ┌─[Table]───────────────────────┐ │ │
+│                       │ │ Client  | Amount | Due  |Status│ │ │
+│                       │ │────────────────────────────────│ │ │
+│                       │ │ Ozone   | 2.5m   |20 Sep|[Paid]│ │ │
+│                       │ │ Oriskin | 1.2m   |25 Sep|[Due] │ │ │
+│                       │ └────────────────────────────────┘ │ │
+│                       │ « 1 [2]{active} 3 »                │ │
+│                       └────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ## Tablet
 
-Same as Desktop, with `[Sidebar: collapsed]`; the Due column is hidden and search spans the available width.
+Same as Desktop, with `[Sidebar: collapsed]`; the Due column is moved into each row's secondary line and search spans the available width.
 
 ## Mobile
 
@@ -36,10 +36,13 @@ Same as Desktop, with `[Sidebar: collapsed]`; the Due column is hidden and searc
 ┌─[Page: Invoice List]────────────┐
 │ ┌─[Navbar]────────────────────┐ │
 │ │ [:menu:]{label:"Open menu"}│ │
-│ │ Invoices     [New]*         │ │
+│ │ Invoices                    │ │
+│ │ [New]{primary}              │ │
 │ └─────────────────────────────┘ │
-│ [Search invoices....]           │
-│ [v Status]                      │
+│ Search invoices                 │
+│ [____________________________]  │
+│ Status                          │
+│ [v All statuses..............]  │
 │ ┌─[Card]──────────────────────┐ │
 │ │ PT Ozone                    │ │
 │ │ Rp2.500.000 · [Paid]        │ │
@@ -50,7 +53,7 @@ Same as Desktop, with `[Sidebar: collapsed]`; the Due column is hidden and searc
 │ │ Rp1.200.000 · [Due]         │ │
 │ │ Due 25 Sep                  │ │
 │ └─────────────────────────────┘ │
-│ « 1 [2] 3 »                    │
+│ « 1 [2]{active} 3 »            │
 └─────────────────────────────────┘
 ```
 
@@ -62,7 +65,6 @@ Same as Desktop, with `[Sidebar: collapsed]`; the Due column is hidden and searc
 ┌─[Results]───────────────────────┐
 │ [░░░░░░░░░░░░░] [░░░░░░]      │
 │ [░░░░░░░░░░░░░] [░░░░░░]      │
-│ [░░░░░░░░░░░░░] [░░░░░░]      │
 └─────────────────────────────────┘
 ```
 
@@ -71,9 +73,8 @@ Same as Desktop, with `[Sidebar: collapsed]`; the Due column is hidden and searc
 ```text
 ┌─[Empty state]───────────────────┐
 │ No invoices yet                 │
-│ Create the first invoice to     │
-│ start tracking payments.        │
-│ [Create invoice]*               │
+│ Create one to track payments.   │
+│ [Create invoice]{primary}       │
 └─────────────────────────────────┘
 ```
 
@@ -82,13 +83,33 @@ Same as Desktop, with `[Sidebar: collapsed]`; the Due column is hidden and searc
 ```text
 ┌─[Alert: error]──────────────────┐
 │ Invoices could not be loaded.   │
-│ [Try again]*                    │
+│ [Try again]{primary}            │
 └─────────────────────────────────┘
 ```
 
-## Notes
+## Handoff
 
-- Selecting `[New invoice]*` opens the invoice-creation screen.
+### Interactions
+
+- `[New]{primary}` opens the invoice-creation screen.
 - Selecting a table row or card opens that invoice's detail screen.
 - Status filtering and search preserve each other when combined.
-- On mobile, invoice rows become cards so labels remain visible without horizontal scrolling.
+
+### Responsive Behavior
+
+- Desktop table rows become Mobile cards; no invoice field required for identification or payment status is removed.
+- Desktop sidebar becomes a labeled menu action on Mobile.
+
+### Accessibility
+
+- Search and status controls retain visible labels on every view.
+- Loading, result count, empty, and error changes are announced without moving focus.
+- Mobile cards follow the same reading order as Desktop table columns.
+
+### Assumptions
+
+- Invoice creation is a separate screen.
+
+### Open Questions
+
+- None.

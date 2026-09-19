@@ -7,12 +7,12 @@
 ## Desktop
 
 ```text
-[Complete default view, when applicable.]
+[Complete default view when applicable.]
 ```
 
 ## Tablet
 
-[Complete view only when its structure differs meaningfully; otherwise describe the delta from Desktop in one line. Remove when not applicable.]
+[Complete view when structure changes meaningfully; otherwise describe the delta from Desktop in one line. Remove when not applicable.]
 
 ## Mobile
 
@@ -22,7 +22,7 @@
 
 ## States
 
-[Include only applicable states and only the region that changes.]
+[Include only applicable states and only the region that changes. Remove this section when no additional state is material.]
 
 ### Loading
 
@@ -42,7 +42,24 @@
 [Error region with a recovery action when appropriate.]
 ```
 
-## Notes
+## Handoff
 
-- [Interaction, navigation, validation, overflow, or accessibility detail.]
-- [Assumption that materially affected the wireframe, if any.]
+### Interactions
+
+- [Trigger → result, navigation target, validation, or destructive confirmation.]
+
+### Responsive Behavior
+
+- [What is preserved, stacked, moved, collapsed, hidden, or replaced.]
+
+### Accessibility
+
+- [Visible labels, reading/focus order, status announcement, error handling, or target-size requirement.]
+
+### Assumptions
+
+- [Assumption that materially affected the wireframe, or `None.`]
+
+### Open Questions
+
+- [Unresolved product decision, or `None.`]

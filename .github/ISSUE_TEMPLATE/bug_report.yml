@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Use this template to report a reproducible problem in `api-flow-tester`.
+        Use this template to report a reproducible problem in `ascii-wireframe`.
   - type: textarea
     id: summary
     attributes:
@@ -27,6 +27,10 @@ body:
         - Claude adapter
         - Copilot adapter
         - Gemini adapter
+        - OpenCode adapter
+        - Cursor adapter
+        - Wireframe output
+        - Runtime validator
         - Sync script
         - Validation script
         - Parity check

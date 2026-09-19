@@ -1,56 +1,55 @@
 ---
 name: ascii-wireframe
-description: Use when the user asks to sketch, wireframe, mock up, or plan a UI screen, page, or component as plain text before implementation.
+description: Use when the user asks for an ASCII or plain-text UI wireframe, screen sketch, text mockup, gambar layout, or sketsa tampilan before implementation.
 ---
 
 # ASCII Wireframe
 
-Draft implementation-neutral UI blueprints in Markdown using monospaced text and box-drawing characters. The wireframe should make layout, hierarchy, content, responsive changes, states, and key interactions clear without producing frontend code.
+Draft implementation-neutral UI blueprints in Markdown. Show layout, hierarchy, responsive transformations, states, and handoff decisions without producing frontend code.
 
-Do not use this skill when the user wants working UI code and has not asked for a wireframe or design-planning artifact.
+Do not use this skill for a working-UI request that does not also ask for a wireframe or design-planning artifact.
 
-## Notation
+## Core Notation
 
-Use two primary primitives:
+- Element: `[Label]` plus explicit modifiers such as `{primary}`, `{active}`, `{disabled}`, or `{link}`.
+- Container: a labeled box containing text or elements.
+- Supporting marks: plain text, dividers, arrows, `[x]`, and `(o)`.
 
-- Inline elements: `[Component]`, optionally followed by `{state}`; for example `[Save]*`, `[Email address....]`, or `[Button]{disabled}`.
-- Containers: a labeled box containing text or other elements.
+Never use `*` for primary or active. Use plain component names instead of decorative glyphs. The rules above cover simple screens; read only the relevant section of [references/legend.md](references/legend.md) when more notation or ASCII-safe mapping is needed.
 
-Plain text, dividers, arrows, and standard control marks such as `[x]` or `( )` may support those primitives. Do not invent decorative glyphs for known components.
-
-Read [references/legend.md](references/legend.md) before drafting. If the project contains `wireframes/_legend.md`, read it afterward and treat it as the project-specific override. For an unlisted component, use its plain component name with the closest existing primitive and document the convention in the output notes. Do not modify the installed central legend while completing a project wireframe.
+If `wireframes/_legend.md` exists, apply it afterward. Never modify the installed legend during project work.
 
 ## Workflow
 
-1. Inspect relevant requirements, existing screens, design-system conventions, and nearby wireframes. Reuse the product's language and navigation model.
-2. Identify the screen's user, purpose, primary action, main content, and target form factors. Ask only when missing information would materially change the structure; otherwise state a concise assumption in Notes.
-3. Draft top-to-bottom: global navigation, page header and actions, main content, secondary content, then overlays such as dialogs, sheets, and toasts.
-4. Use realistic representative content so hierarchy and density can be judged. Do not fill the screen with generic lorem ipsum.
-5. Put visible structure in the diagram and interaction behavior in Notes.
-6. Check that every visible action has a clear label, the primary action is apparent, responsive changes preserve task priority, and applicable loading, empty, and error states have a recovery path.
-
-Use [references/template.md](references/template.md) for the document structure. Read [references/example.md](references/example.md) when a full example would help resolve formatting or scope.
+1. Inspect requirements, existing screens, product language, design conventions, and nearby wireframes.
+2. Identify the user, purpose, primary action, content priority, target contexts, locale, and character-set constraint. Ask only when missing information changes structure; otherwise record an assumption.
+3. For responsive UI, reason from the narrowest view first, then present views in the template or project order.
+4. Draft navigation, heading/actions, main and secondary content, then overlays. Use realistic content, not lorem ipsum.
+5. Complete every Handoff subsection so decisions, assumptions, and open questions remain distinct.
+6. Validate saved output with `scripts/validate_wireframe.py <file>`; add `--ascii` for strict ASCII diagrams.
 
 ## Responsive Views
 
-- Desktop: draw the complete default view unless the requested product is not desktop-capable.
-- Tablet: draw it only when structure changes meaningfully. Otherwise, write a one-line delta from Desktop.
-- Mobile: draw the complete view for responsive web products because navigation, grids, tables, and action placement commonly change. For native mobile or desktop-only products, draw only the applicable form factor and note the scope.
-
-Do not create breakpoints the user does not need.
+Use requested view labels, but design for available space rather than assumed devices. State what each narrower view preserves, stacks, moves, collapses, hides, or replaces. Draw a full view for structural change; use a one-line delta for minor reflow. Do not invent breakpoints or remove functionality. Avoid two-dimensional scrolling except where essential to content such as tables or maps.
 
 ## UI States
 
-Include Loading, Empty, Error, Disabled, Success, or other states only when they affect the requested flow. Draw only the region that changes rather than duplicating the entire screen. Error and empty states should show an appropriate recovery or next action when one exists.
+Include only states affecting the flow: loading, empty, error, invalid, disabled, success, permission denied, offline, or partial data. Draw only the changed region. Provide a next/recovery action when one exists; form errors preserve entered values and identify affected fields.
 
-## Notes
+## Accessibility
 
-Record behavior that cannot be seen in the diagram, including navigation targets, validation, destructive confirmations, overflow behavior, and important accessibility semantics. Give icon-only controls an accessible label in a modifier, for example `[:trash:]{label:"Delete invoice"}`.
+For interactive UI, read [references/accessibility.md](references/accessibility.md) and record applicable decisions under Handoff → Accessibility. Describe required behavior without prescribing framework code.
 
-Avoid implementation choices such as frameworks, component libraries, pixel values, API shapes, or debounce timings unless the user supplied them or they are essential constraints.
+## Multi-Screen Flows
+
+For two or more screens, read [references/flow-template.md](references/flow-template.md). In projects, create `wireframes/_flow.md` plus one file per screen. Map primary and material alternate, cancellation, error, and recovery paths without duplicating screen layouts.
+
+## Character Set
+
+Default to Unicode box drawing. When strict ASCII is requested or Unicode alignment is unreliable, use `+`, `-`, `|`, `>`, and `<` for structure while keeping component semantics unchanged.
 
 ## Deliverable
 
-When working in a project, save one screen per file at `wireframes/<screen-name>.md`, or under the relevant app root in a monorepo. Use kebab-case names. If the user explicitly asks for chat-only output, return the wireframe inline instead.
+Use [references/template.md](references/template.md). Save project screens as `wireframes/<screen-name>.md`, using kebab-case and the relevant app root in monorepos. Return inline only for chat-only requests.
 
-After writing a file, report its path and briefly list the views and states covered. Keep the diagram readable in a normal monospaced editor; exact border alignment is secondary to unambiguous structure.
+For project notation, base `wireframes/_legend.md` on [references/project-legend-template.md](references/project-legend-template.md) and add only project conventions. Report written paths and covered views, states, and flows. Favor unambiguous structure over perfect borders.
