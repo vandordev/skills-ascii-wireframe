@@ -1,66 +1,152 @@
 # ASCII Wireframe
 
-`ascii-wireframe` helps coding agents draft consistent UI blueprints as readable Markdown before implementation. It captures layout, responsive transformations, meaningful UI states, accessibility requirements, and implementation handoff decisions without tying the design to a frontend framework.
+**Turn vague UI ideas into implementation-ready blueprints before anyone writes frontend code.**
 
-## What It Produces
+`ascii-wireframe` is an agent skill for designing screens, responsive layouts, UI states, and multi-screen journeys in readable Markdown. It gives product, design, and engineering a shared artifact that works in any text editor—without committing to a framework or polishing pixels too early.
 
-- One Markdown file per screen
-- Full views for applicable form factors
-- Compact loading, empty, error, and other relevant states
-- Explicit `{primary}`, `{active}`, and other semantic modifiers
-- Structured handoff notes for interactions, responsive behavior, accessibility, assumptions, and open questions
-- Optional `_flow.md` maps for multi-screen journeys
-- Unicode box drawing with a strict ASCII fallback
-- A shared notation that remains readable across Codex, Claude, Copilot, Gemini, OpenCode, and Cursor
+Works with Codex, Claude, Copilot, Gemini, OpenCode, and Cursor.
 
-## Quick Usage
+## See It in Action
 
-Ask your agent to sketch a screen, page, component, or multi-screen flow as an ASCII wireframe. In a project, screen output defaults to `wireframes/<screen-name>.md` and multi-screen maps to `wireframes/_flow.md`.
-
-Example:
+Ask your agent:
 
 ```text
-Use ascii-wireframe to sketch an invoice list for desktop and mobile, including loading, empty, and error states.
+Use ascii-wireframe to sketch an invoice list for desktop and mobile.
+Include loading, empty, and error states.
 ```
 
-Validate a generated screen with:
+It produces a reviewable blueprint like this:
+
+```text
+┌─[Page: Invoice List]────────────────────────────────────┐
+│ ┌─[Sidebar]────────┐  ┌─[Main]───────────────────────┐ │
+│ │ [Dashboard]      │  │ Invoices       [New]{primary}│ │
+│ │ [Invoices]{active}  │                               │ │
+│ │ [Clients]        │  │ Search invoices              │ │
+│ └──────────────────┘  │ [__________________________]  │ │
+│                       │ ┌─[Table]───────────────────┐ │ │
+│                       │ │ Client  | Amount | Status│ │ │
+│                       │ │ Ozone   | 2.5m   | [Paid]│ │ │
+│                       │ │ Oriskin | 1.2m   | [Due] │ │ │
+│                       │ └───────────────────────────┘ │ │
+│                       └───────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+```
+
+```text
+┌─[Mobile: Invoice List]─────────┐
+│ [:menu:]{label:"Open menu"}   │
+│ Invoices          [New]{primary}│
+│ Search invoices                │
+│ [____________________________] │
+│ ┌─[Card]─────────────────────┐ │
+│ │ PT Ozone                   │ │
+│ │ Rp2.500.000 · [Paid]       │ │
+│ └────────────────────────────┘ │
+│ ┌─[Card]─────────────────────┐ │
+│ │ Oriskin                    │ │
+│ │ Rp1.200.000 · [Due]        │ │
+│ └────────────────────────────┘ │
+└────────────────────────────────┘
+```
+
+The generated document also records interactions, responsive transformations, accessibility requirements, assumptions, open questions, and relevant UI states. See the [complete example](core/references/example.md).
+
+## Why Use It
+
+- **Align before implementation.** Review information hierarchy, actions, and navigation while changes are still cheap.
+- **Design responsive behavior intentionally.** Define what stacks, moves, collapses, hides, or changes representation at narrower widths.
+- **Cover the states happy-path mockups miss.** Include loading, empty, error, invalid, offline, permission, and partial-data states only when relevant.
+- **Hand off decisions, not guesses.** Separate confirmed interactions from assumptions and unresolved product questions.
+- **Catch accessibility issues earlier.** Preserve visible labels, logical reading order, recoverable errors, status announcements, and touch-target requirements.
+- **Stay implementation-neutral.** The notation describes UI roles without requiring React, Vue, Tailwind, shadcn/ui, or any other stack.
+
+## What It Can Produce
+
+| Artifact | Default location | Purpose |
+|---|---|---|
+| Screen wireframe | `wireframes/<screen-name>.md` | Layout, views, states, and implementation handoff |
+| Multi-screen map | `wireframes/_flow.md` | Primary, alternate, cancellation, and recovery paths |
+| Project legend | `wireframes/_legend.md` | Product-specific notation without changing the shared legend |
+
+Unicode box drawing is the default. A strict ASCII mode is available for terminals that cannot align Unicode reliably.
+
+## How It Works
+
+1. **Describe the interface** — name the user, task, target views, and important states.
+2. **Review the blueprint** — agree on hierarchy, responsive behavior, interactions, and edge cases in Markdown.
+3. **Implement with clarity** — give the approved wireframe to a developer or coding agent as the UI contract.
+
+## Good Fits
+
+- SaaS dashboards and internal tools
+- Forms, settings, onboarding, and checkout flows
+- Tables that need a deliberate mobile representation
+- Admin panels with loading, empty, permission, and error states
+- Multi-step journeys that need a shared screen map
+- Early product discussions where visual polish would distract from structure
+
+## Quick Start
+
+After installing the skill, try:
+
+```text
+Sketch a responsive customer dashboard as an ASCII wireframe.
+Show desktop and mobile, then include loading and empty states.
+Save it to wireframes/customer-dashboard.md.
+```
+
+Validate a generated wireframe from this repository with:
 
 ```bash
-python scripts/validate_wireframe.py wireframes/invoice-list.md
+python core/scripts/validate_wireframe.py wireframes/customer-dashboard.md
 ```
 
 Add `--ascii` when strict ASCII diagrams were requested.
 
 ## Installation
 
-Use the guide for your agent:
+Choose your agent:
 
-- [Codex](docs/install-codex.md)
-- [Claude](docs/install-claude.md)
-- [Copilot](docs/install-copilot.md)
-- [Gemini](docs/install-gemini.md)
-- [OpenCode](docs/install-opencode.md)
-- [Cursor](docs/install-cursor.md)
+- [Install for Codex](docs/install-codex.md)
+- [Install for Claude](docs/install-claude.md)
+- [Install for Copilot](docs/install-copilot.md)
+- [Install for Gemini](docs/install-gemini.md)
+- [Install for OpenCode](docs/install-opencode.md)
+- [Install for Cursor](docs/install-cursor.md)
+
+Each adapter ships with the same canonical workflow, references, templates, example, and validator.
+
+## Built-In Quality Checks
+
+The validator catches:
+
+- unresolved template placeholders
+- ambiguous legacy `*` modifiers
+- missing views or handoff sections
+- unbalanced Markdown fences
+- implementation code embedded in a wireframe
+- non-ASCII diagram characters when `--ascii` is enabled
+
+The repository also includes [behavioral evaluation cases](evals/cases.md) for responsive dashboards, validation-heavy forms, native mobile screens, desktop-only tools, project legends, multi-screen flows, strict ASCII, and negative activation.
 
 ## Development
 
-Edit canonical content under `core/`, then run:
+Edit canonical content under `core/`, then regenerate and verify every adapter:
 
 ```bash
 bash scripts/sync.sh
 bash scripts/test.sh
 ```
 
-Generated platform adapters live under `adapters/`; do not edit them directly.
+Repository structure:
 
-## Repository Layout
-
-- `core/`: canonical skill, runtime validator, and references
-- `adapters/`: generated platform-specific packages
-- `evals/`: fresh-context behavioral evaluation scenarios
-- `scripts/`: sync, validation, parity, and test entrypoints
-- `tests/`: repository contract checks
-- `docs/`: installation and compatibility documentation
+- `core/` — canonical skill, runtime validator, and references
+- `adapters/` — generated packages for each supported agent
+- `evals/` — behavioral evaluation scenarios
+- `scripts/` — sync, validation, parity, and test entrypoints
+- `tests/` — repository and validator checks
+- `docs/` — installation and compatibility documentation
 
 ## Sponsors
 
